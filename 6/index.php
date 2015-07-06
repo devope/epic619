@@ -1,25 +1,31 @@
 <?php
 
-try {
-    $pdo = new PDO(
-        'mysql:host=localhost;dbname=duck_shop;charset=utf8',
-        'root',
-        ''
-    );
-    $pdo->setAttribute(
-        PDO::ATTR_ERRMODE,
-        PDO::ERRMODE_EXCEPTION
-    );
+require_once 'db.php';
 
-    $statment = $pdo->prepare(
-        'SELECT * FROM products WHERE id = :id'
-    );
-    $statment->execute([
-        'id' => $_GET['id']
-    ]);
+$categoriesStatment = $pdo->prepare(
+    'SELECT * FROM categories'
+);
+$categoriesStatment->execute();
 
-    var_dump($statment->fetchAll(PDO::FETCH_ASSOC));
-    
-} catch (PDOException $e) {
-    echo "ERROR: " . $e->getMessage();
+$categories = $categoriesStatment->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($categories as $category) {
+    echo "<a href='../category.php?id={$category['id']}'>"
+    . $category['title'] .
+    "</a><br>";
 }
+echo "<hr>";
+
+$productsStatment = $pdo->prepare(
+    'SELECT * FROM products'
+);
+$productsStatment->execute();
+
+$products = $productsStatment->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($products as $product) {
+    echo "<a href='../product.php?id={$product['id']}'>"
+    . $product['title'] .
+    "</a><br>";
+}
+echo "<hr>";
