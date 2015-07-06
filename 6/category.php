@@ -20,3 +20,19 @@ if ($categoryPreparedStatement->rowCount() === 0) {
     echo "<h1>Такой категории не существует!</h1>";
     die;
 }
+
+$productsStatment = $pdo->prepare(
+    'SELECT * FROM products WHERE category_id = :id'
+);
+$productsStatment->bindParam(
+    ':id', $id
+);
+$productsStatment->execute();
+$products = $productsStatment->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($products as $product) {
+    echo "<a href='../product.php?id={$product['id']}'>"
+    . $product['title'] .
+    "</a><br>";
+}
+echo "<hr>";
