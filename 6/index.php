@@ -10,7 +10,7 @@ $categoriesStatment->execute();
 $categories = $categoriesStatment->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($categories as $category) {
-    echo "<a href='../category.php?id={$category['id']}'>"
+    echo "<a href='category.php?id={$category['id']}'>"
     . $category['title'] .
     "</a><br>";
 }
