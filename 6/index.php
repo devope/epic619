@@ -11,9 +11,15 @@ try {
         PDO::ERRMODE_EXCEPTION
     );
 
+    $statment = $pdo->prepare(
+        'SELECT * FROM products WHERE id = :id'
+    );
+    $statment->execute([
+        'id' => $_GET['id']
+    ]);
 
-    $statment = $pdo->query("SELECT title FROM products");
-    var_dump($statment->fetch(PDO::FETCH_ASSOC));
+    var_dump($statment->fetchAll(PDO::FETCH_ASSOC));
+    
 } catch (PDOException $e) {
     echo "ERROR: " . $e->getMessage();
 }
